@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 
 import guru.springframework.msscbrewery.web.model.BeerDto;
 import guru.springframework.msscbrewery.web.service.BeerService;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class BeerServiceImpl implements BeerService {
 
 	@Override
@@ -29,6 +31,11 @@ public class BeerServiceImpl implements BeerService {
 	@Override
 	public void updateBeer(UUID beerId, BeerDto beerDto) {
 		// TODO
+	}
+
+	@Override
+	public void deleteById(UUID beerId) {
+		log.debug("Deleting a beer with id " + beerId + "...");
 	}
 
 }
