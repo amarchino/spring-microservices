@@ -1,10 +1,11 @@
-package guru.springframework.msscbrewery.web.service;
+package guru.springframework.msscbrewery.web.service.impl;
 
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
 import guru.springframework.msscbrewery.web.model.BeerDto;
+import guru.springframework.msscbrewery.web.service.BeerService;
 
 @Service
 public class BeerServiceImpl implements BeerService {
