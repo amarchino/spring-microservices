@@ -31,7 +31,7 @@ public class BeerController {
 
 	@PostMapping
 	public ResponseEntity<Object> handlePost(@RequestBody BeerDto beerDto) {
-		BeerDto savedBeer = beerService.save(beerDto);
+		BeerDto savedBeer = beerService.saveNewBeer(beerDto);
 		HttpHeaders headers = new HttpHeaders();
 		// TODO: add hostname to URL
 		headers.add("Location", "/api/v1/beer/" + savedBeer.getId().toString());
