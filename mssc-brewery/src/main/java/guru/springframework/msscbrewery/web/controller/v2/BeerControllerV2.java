@@ -1,4 +1,4 @@
-package guru.springframework.msscbrewery.web.controller;
+package guru.springframework.msscbrewery.web.controller.v2;
 
 import java.util.UUID;
 
@@ -15,41 +15,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import guru.springframework.msscbrewery.web.model.BeerDto;
-import guru.springframework.msscbrewery.web.service.BeerService;
+import guru.springframework.msscbrewery.web.model.v2.BeerDtoV2;
+import guru.springframework.msscbrewery.web.service.v2.BeerServiceV2;
 import lombok.RequiredArgsConstructor;
 
-@Deprecated
 @RestController
-@RequestMapping("/api/v1/beer")
+@RequestMapping("/api/v2/beer")
 @RequiredArgsConstructor
-public class BeerController {
+public class BeerControllerV2 {
 	
-	private final BeerService beerService;
+	private final BeerServiceV2 beerServiceV2;
 	
 	@GetMapping("/{beerId}")
-	public ResponseEntity<BeerDto> getBeer(@PathVariable("beerId") UUID beerId) {
-		return new ResponseEntity<>(beerService.getBeerById(beerId), HttpStatus.OK);
+	public ResponseEntity<BeerDtoV2> getBeer(@PathVariable("beerId") UUID beerId) {
+		return new ResponseEntity<>(beerServiceV2.getBeerById(beerId), HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<Object> handlePost(@RequestBody BeerDto beerDto) {
-		BeerDto savedBeer = beerService.saveNewBeer(beerDto);
+	public ResponseEntity<Object> handlePost(@RequestBody BeerDtoV2 beerDto) {
+		BeerDtoV2 savedBeer = beerServiceV2.saveNewBeer(beerDto);
 		HttpHeaders headers = new HttpHeaders();
 		// TODO: add hostname to URL
-		headers.add("Location", "/api/v1/beer/" + savedBeer.getId().toString());
+		headers.add("Location", "/api/v2/beer/" + savedBeer.getId().toString());
 		return new ResponseEntity<>(headers, HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/{beerId}")
-	public ResponseEntity<Object> handlePut(@PathVariable("beerId") UUID beerId, @RequestBody BeerDto beerDto) {
-		beerService.updateBeer(beerId, beerDto);
+	public ResponseEntity<Object> handlePut(@PathVariable("beerId") UUID beerId, @RequestBody BeerDtoV2 beerDto) {
+		beerServiceV2.updateBeer(beerId, beerDto);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	@DeleteMapping("/{beerId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteBeer(@PathVariable("beerId") UUID beerId) {
-		beerService.deleteById(beerId);
+		beerServiceV2.deleteById(beerId);
 	}
 }

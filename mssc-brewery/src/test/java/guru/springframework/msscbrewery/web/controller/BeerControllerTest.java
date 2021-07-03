@@ -27,6 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import guru.springframework.msscbrewery.web.model.BeerDto;
 import guru.springframework.msscbrewery.web.service.BeerService;
 
+@SuppressWarnings("deprecation")
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(BeerController.class)
 class BeerControllerTest {
