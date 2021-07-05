@@ -1,0 +1,4 @@
+{"properties": [{
+  "name": "sfg.brewery",
+  "type": "guru.springframework.msscbreweryclient.web.client.BreweryClient"
+}]}
