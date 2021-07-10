@@ -1,4 +1,10 @@
-{"properties": [{
-  "name": "sfg.brewery",
-  "type": "guru.springframework.msscbreweryclient.web.client.BreweryClient"
-}]}
+{"properties": [
+  {
+    "name": "sfg.brewery",
+    "type": "guru.springframework.msscbreweryclient.web.client.BreweryClient"
+  },
+  {
+    "name": "sfg.http",
+    "type": "guru.springframework.msscbreweryclient.web.config.HttpClientConfig"
+  }
+]}

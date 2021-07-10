@@ -1,6 +1,11 @@
 sfg:
   brewery:
     apihost: http://localhost:8080
+  http:
+    max-connections: 100
+    max-per-route: 20
+    connection-timeout: 3000
+    socket-timeout: 3000
 
 #logging:
 #  level:
