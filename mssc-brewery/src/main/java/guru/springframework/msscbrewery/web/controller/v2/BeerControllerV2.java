@@ -1,11 +1,17 @@
 package guru.springframework.msscbrewery.web.controller.v2;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +38,7 @@ public class BeerControllerV2 {
 	}
 
 	@PostMapping
-	public ResponseEntity<Object> handlePost(@RequestBody BeerDtoV2 beerDto) {
+	public ResponseEntity<Object> handlePost(@Valid @RequestBody BeerDtoV2 beerDto) {
 		BeerDtoV2 savedBeer = beerServiceV2.saveNewBeer(beerDto);
 		HttpHeaders headers = new HttpHeaders();
 		// TODO: add hostname to URL
@@ -41,7 +47,7 @@ public class BeerControllerV2 {
 	}
 	
 	@PutMapping("/{beerId}")
-	public ResponseEntity<Object> handlePut(@PathVariable("beerId") UUID beerId, @RequestBody BeerDtoV2 beerDto) {
+	public ResponseEntity<Object> handlePut(@PathVariable("beerId") UUID beerId, @Valid @RequestBody BeerDtoV2 beerDto) {
 		beerServiceV2.updateBeer(beerId, beerDto);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
@@ -50,5 +56,14 @@ public class BeerControllerV2 {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteBeer(@PathVariable("beerId") UUID beerId) {
 		beerServiceV2.deleteById(beerId);
+	}
+	
+	@ExceptionHandler(ConstraintViolationException.class)
+	public ResponseEntity<List<String>> validationErrorHandler(ConstraintViolationException e) {
+		List<String> errors = e.getConstraintViolations()
+				.stream()
+				.map(cv -> cv.getPropertyPath() + ": " + cv.getMessage())
+				.collect(Collectors.toList());
+		return ResponseEntity.badRequest().body(errors);
 	}
 }
