@@ -1,5 +1,6 @@
 package guru.springframework.msscbrewery.domain;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 import guru.springframework.msscbrewery.web.model.v2.BeerStyleEnum;
@@ -18,4 +19,7 @@ public class Beer {
 	private String beerName;
 	private BeerStyleEnum beerStyle;
 	private Long upc;
+	
+	private Timestamp createdDate;
+	private Timestamp lastUpdatedTime;
 }

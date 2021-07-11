@@ -1,5 +1,6 @@
 package guru.springframework.msscbrewery.web.model;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import javax.validation.constraints.NotBlank;
@@ -24,5 +25,8 @@ public class BeerDto {
 	private String beerStyle;
 	@Positive
 	private Long upc;
+	
+	private OffsetDateTime createdDate;
+	private OffsetDateTime lastUpdatedTime;
 
 }
