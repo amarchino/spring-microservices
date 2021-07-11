@@ -4,12 +4,15 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +28,7 @@ import guru.springframework.msscbrewery.web.model.v2.BeerDtoV2;
 import guru.springframework.msscbrewery.web.service.v2.BeerServiceV2;
 import lombok.RequiredArgsConstructor;
 
+@Validated
 @RestController
 @RequestMapping("/api/v2/beer")
 @RequiredArgsConstructor
@@ -38,7 +42,7 @@ public class BeerControllerV2 {
 	}
 
 	@PostMapping
-	public ResponseEntity<Object> handlePost(@Valid @RequestBody BeerDtoV2 beerDto) {
+	public ResponseEntity<Object> handlePost(@Valid @NotNull @RequestBody BeerDtoV2 beerDto) {
 		BeerDtoV2 savedBeer = beerServiceV2.saveNewBeer(beerDto);
 		HttpHeaders headers = new HttpHeaders();
 		// TODO: add hostname to URL
@@ -47,7 +51,7 @@ public class BeerControllerV2 {
 	}
 	
 	@PutMapping("/{beerId}")
-	public ResponseEntity<Object> handlePut(@PathVariable("beerId") UUID beerId, @Valid @RequestBody BeerDtoV2 beerDto) {
+	public ResponseEntity<Object> handlePut(@PathVariable("beerId") UUID beerId, @Valid @NotNull @RequestBody BeerDtoV2 beerDto) {
 		beerServiceV2.updateBeer(beerId, beerDto);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
@@ -58,12 +62,15 @@ public class BeerControllerV2 {
 		beerServiceV2.deleteById(beerId);
 	}
 	
-	@ExceptionHandler(ConstraintViolationException.class)
-	public ResponseEntity<List<String>> validationErrorHandler(ConstraintViolationException e) {
-		List<String> errors = e.getConstraintViolations()
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<List<String>> validationErrorHandler(MethodArgumentNotValidException e) {
+		List<String> errors = e.getBindingResult()
+				.getAllErrors()
 				.stream()
-				.map(cv -> cv.getPropertyPath() + ": " + cv.getMessage())
+				.map(FieldError.class::cast)
+				.map(fieldError -> String.format("Bad Request %s: %s. Rejected value: ---> %s", fieldError.getField(), fieldError.getDefaultMessage(), fieldError.getRejectedValue()))
 				.collect(Collectors.toList());
 		return ResponseEntity.badRequest().body(errors);
 	}
+	
 }
