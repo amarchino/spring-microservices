@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.UUID;
 
+import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -86,7 +87,8 @@ class CustomerControllerTest {
         mockMvc.perform(post("/api/v1/customer/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(customerDtoJson))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.*", Matchers.hasSize(1)));
     }
 
     @Test
@@ -116,7 +118,8 @@ class CustomerControllerTest {
         mockMvc.perform(put("/api/v1/customer/" + UUID.randomUUID())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(customerDtoJson))
-        .andExpect(status().isBadRequest());
+		        .andExpect(status().isBadRequest())
+		        .andExpect(jsonPath("$.*", Matchers.hasSize(1)));
 
     }
 
