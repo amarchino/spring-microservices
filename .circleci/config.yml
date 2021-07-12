@@ -22,7 +22,7 @@ jobs:
           command: mvn -B -DskipTests clean package -f mssc-brewery/pom.xml
       - run:
           name: Test
-          command: mvn test -f mssc-brewery-client/pom.xml
+          command: mvn test -f mssc-brewery/pom.xml
 workflows:
   sample: 
     jobs:
