@@ -1,0 +1,30 @@
+version: 2.1
+
+jobs:
+  mssc-beer-service:  
+    docker:
+      - image: cimg/openjdk:11.0
+    steps:
+      - checkout
+      - run:
+          name: Build
+          command: mvn -B -DskipTests clean package -f mssc-beer-service/pom.xml
+      - run:
+          name: Test
+          command: mvn test -f mssc-beer-service/pom.xml
+  mssc-brewery:  
+    docker:
+      - image: cimg/openjdk:11.0
+    steps:
+      - checkout
+      - run:
+          name: Build
+          command: mvn -B -DskipTests clean package -f mssc-brewery/pom.xml
+      - run:
+          name: Test
+          command: mvn test -f mssc-brewery/pom.xml
+workflows:
+  sample: 
+    jobs:
+      - mssc-beer-service
+      - mssc-brewery
