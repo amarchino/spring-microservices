@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>guru.springframework</groupId>
-	<artifactId>mssc-beer-service</artifactId>
+	<artifactId>mssc-restdocs-example</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>mssc-beer-service</name>
-	<description>SFG Beer Service</description>
+	<name>mssc-restdocs-example</name>
+	<description>SFG Restdocs Example</description>
 	<properties>
 		<java.version>11</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -121,9 +121,6 @@
 					<compilerArgs>
 						<compilerArg>
 							-Amapstruct.defaultComponentModel=spring
-						</compilerArg>
-						<compilerArg>
-							-Amapstruct.verbose=true
 						</compilerArg>
 					</compilerArgs>
 				</configuration>
