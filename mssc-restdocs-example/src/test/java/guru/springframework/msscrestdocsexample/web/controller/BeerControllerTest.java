@@ -1,9 +1,9 @@
 package guru.springframework.msscrestdocsexample.web.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -31,8 +31,11 @@ class BeerControllerTest {
 
 	@Test
 	void getBeerById() throws Exception {
-		mockMvc.perform(get("/api/v1/beer/" + UUID.randomUUID()).accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isOk());
+		mockMvc.perform(get("/api/v1/beer/{beerId}", UUID.randomUUID()).accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andDo(document("v1/beer", pathParameters(
+				parameterWithName("beerId").description("UUID of the desired beer to get.")
+			)));
 	}
 	@Test
 	void saveNewBeer() throws Exception {
