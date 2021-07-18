@@ -1,9 +1,15 @@
 package guru.springframework.msscrestdocsexample.web.controller;
 
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -41,7 +47,19 @@ class BeerControllerTest {
 				),
 				requestParameters(
 					parameterWithName("isCold").description("Is beer cold query parameter.")
-				)));
+				),
+				responseFields(
+					fieldWithPath("id").description("Id of the beer"),
+					fieldWithPath("version").description("Version number"),
+					fieldWithPath("createdDate").description("Creation date"),
+					fieldWithPath("lastModifiedDate").description("Update date"),
+					fieldWithPath("beerName").description("Beer name"),
+					fieldWithPath("style").description("Style of the beer"),
+					fieldWithPath("upc").description("UPC of the beer"),
+					fieldWithPath("price").description("Price"),
+					fieldWithPath("quantityOnHand").description("Quantity on hand")
+				)
+			));
 	}
 	@Test
 	void saveNewBeer() throws Exception {
