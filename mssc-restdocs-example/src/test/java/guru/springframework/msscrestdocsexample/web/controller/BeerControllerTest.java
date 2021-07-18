@@ -6,6 +6,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
@@ -70,7 +71,20 @@ class BeerControllerTest {
 				.content(objectMapper.writeValueAsString(beerDto))
 				.contentType(MediaType.APPLICATION_JSON)
 			)
-			.andExpect(status().isCreated());
+			.andExpect(status().isCreated())
+			.andDo(document("v1/beer",
+				requestFields(
+					fieldWithPath("id").ignored(),
+					fieldWithPath("version").ignored(),
+					fieldWithPath("createdDate").ignored(),
+					fieldWithPath("lastModifiedDate").ignored(),
+					fieldWithPath("beerName").description("Beer name"),
+					fieldWithPath("style").description("Style of the beer"),
+					fieldWithPath("upc").description("UPC of the beer"),
+					fieldWithPath("price").description("Price"),
+					fieldWithPath("quantityOnHand").ignored()
+				)
+			));
 	}
 	@Test
 	void updateBeerById() throws Exception {
