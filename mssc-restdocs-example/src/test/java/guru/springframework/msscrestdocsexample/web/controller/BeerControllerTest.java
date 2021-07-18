@@ -31,11 +31,17 @@ class BeerControllerTest {
 
 	@Test
 	void getBeerById() throws Exception {
-		mockMvc.perform(get("/api/v1/beer/{beerId}", UUID.randomUUID()).accept(MediaType.APPLICATION_JSON))
+		mockMvc.perform(get("/api/v1/beer/{beerId}", UUID.randomUUID())
+			.param("isCold", "true")
+			.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
-			.andDo(document("v1/beer", pathParameters(
-				parameterWithName("beerId").description("UUID of the desired beer to get.")
-			)));
+			.andDo(document("v1/beer",
+				pathParameters(
+					parameterWithName("beerId").description("UUID of the desired beer to get.")
+				),
+				requestParameters(
+					parameterWithName("isCold").description("Is beer cold query parameter.")
+				)));
 	}
 	@Test
 	void saveNewBeer() throws Exception {
