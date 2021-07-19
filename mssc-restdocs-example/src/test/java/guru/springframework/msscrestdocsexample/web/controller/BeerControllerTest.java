@@ -27,7 +27,7 @@ import guru.springframework.msscrestdocsexample.web.model.BeerDto;
 import guru.springframework.msscrestdocsexample.web.model.BeerStyleEnum;
 
 @ExtendWith(RestDocumentationExtension.class)
-@AutoConfigureRestDocs
+@AutoConfigureRestDocs(uriScheme = "https", uriHost = "dev.springframework.guru", uriPort = 80)
 @WebMvcTest
 class BeerControllerTest {
 	@Autowired private MockMvc mockMvc;
