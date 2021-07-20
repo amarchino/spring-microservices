@@ -39,7 +39,7 @@ class BeerControllerTest {
 			.param("isCold", "true")
 			.accept(MediaType.APPLICATION_JSON))
 			.andExpect(MockMvcResultMatchers.status().isOk())
-			.andDo(MockMvcRestDocumentation.document("v1/beer",
+			.andDo(MockMvcRestDocumentation.document("v1/beer-get",
 				RequestDocumentation.pathParameters(
 					RequestDocumentation.parameterWithName("beerId").description("UUID of the desired beer to get.")
 				),
@@ -70,7 +70,7 @@ class BeerControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 			)
 			.andExpect(MockMvcResultMatchers.status().isCreated())
-			.andDo(MockMvcRestDocumentation.document("v1/beer",
+			.andDo(MockMvcRestDocumentation.document("v1/beer-new",
 				PayloadDocumentation.requestFields(
 					fields.withPath("id").ignored(),
 					fields.withPath("version").ignored(),
