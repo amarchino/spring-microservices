@@ -8,7 +8,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Positive;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,7 +32,9 @@ public class BeerDto {
 	@Positive
 	private Long upc;
 	
+	@JsonFormat(shape = Shape.STRING)
 	private BigDecimal price;
+	@JsonFormat(pattern = "yyyy-MM-dd", shape = Shape.STRING)
 	private OffsetDateTime createdDate;
 	private OffsetDateTime lastUpdatedTime;
 
