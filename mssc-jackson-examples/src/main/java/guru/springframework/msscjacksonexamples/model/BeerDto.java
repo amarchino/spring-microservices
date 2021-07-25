@@ -11,6 +11,7 @@ import javax.validation.constraints.Positive;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -36,10 +37,11 @@ public class BeerDto {
 	
 	@JsonFormat(shape = Shape.STRING)
 	private BigDecimal price;
-	@JsonFormat(pattern = "yyyy-MM-dd", shape = Shape.STRING)
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ", shape = Shape.STRING)
 	private OffsetDateTime createdDate;
 	private OffsetDateTime lastUpdatedTime;
 
 	@JsonSerialize(using = LocalDateSerializer.class)
+	@JsonDeserialize(using = LocalDateDeserializer.class)
 	private LocalDate myLocalDate;
 }
