@@ -39,8 +39,7 @@ public class BeerDto {
 	@NotNull
 	private BeerStyleEnum style;
 	@NotNull
-	@Positive
-	private Long upc;
+	private String upc;
 	
 	@NotNull
 	@Positive
