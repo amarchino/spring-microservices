@@ -41,18 +41,10 @@ public class PaymentServiceImpl implements PaymentService {
 	@Transactional
 	public StateMachine<PaymentState, PaymentEvent> authorizePayment(Long paymentId) {
 		StateMachine<PaymentState, PaymentEvent> sm = build(paymentId);
-		sendEvent(paymentId, sm, PaymentEvent.AUTH_APPROVED);
+		sendEvent(paymentId, sm, PaymentEvent.AUTHORIZE);
 		return sm;
 	}
 
-	@Override
-	@Transactional
-	public StateMachine<PaymentState, PaymentEvent> declineAuth(Long paymentId) {
-		StateMachine<PaymentState, PaymentEvent> sm = build(paymentId);
-		sendEvent(paymentId, sm, PaymentEvent.AUTH_DECLINED);
-		return sm;
-	}
-	
 	private void sendEvent(Long paymentId, StateMachine<PaymentState, PaymentEvent> sm, PaymentEvent event) {
 		Message<PaymentEvent> message = MessageBuilder.withPayload(event)
 			.setHeader(PAYMENT_ID_HEADER, paymentId)
